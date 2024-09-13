@@ -15,7 +15,7 @@ spec:
       containers:
         - name: gu-ml
           image: gu-ml:latest
-          imagePullPolicy: Never
+          imagePullPolicy: Never #Just to resolve local images, should be removed to production env
           ports:
             - containerPort: 80
 ---
