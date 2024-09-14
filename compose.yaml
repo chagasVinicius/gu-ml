@@ -1,0 +1,45 @@
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8000:80"
+    environment:
+      DB_HOST: localhost
+      DB_USER: dbuser #envvar
+      DB_PWD: dbpwd #envvar
+      DB_NAME: dbuser #envvar
+
+    network_mode: host
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - ${DB_PORT:-5432}:5432
+    environment:
+      POSTGRES_USER: dbuser #envvar
+      POSTGRES_PASSWORD: dbpwd #envvar
+      DB_NAME: cards #envvar
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - 8081:81
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "bar"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+volumes:
+  db:
+    driver: local
+  pgadmin:
+    driver: local
