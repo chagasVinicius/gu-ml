@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gu-ml-deployment
+  labels:
+    app: gu-ml
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gu-ml
+  template:
+    metadata:
+      labels:
+        app: gu-ml
+    spec:
+      initContainers:
+        - name: init-postgres-service
+          image: postgres:13.1-alpine
+          command: [
+              "sh",
+              "-c",
+              "until pg_isready -h postgres-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local -p 5432;
+              do echo waiting for database; sleep 2; done;",
+            ]
+
+      containers:
+        - name: gu-ml-container
+          image: gu-ml:latest
+          imagePullPolicy: Never #Just to resolve local images, should be removed to production env
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: gu-ml-secret
+                  key: DB_URL
+          ports:
+            - containerPort: 8000
