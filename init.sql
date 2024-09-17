@@ -8,3 +8,7 @@ CREATE TABLE IF NOT EXISTS "cards" (
   "god" text,
   "strategy" text
 );
+--CREATE TABLE IF NOT EXISTS "feedback"(
+--"id" uuid PRIMARY KEY,
+--  "card_id" int 
+--)

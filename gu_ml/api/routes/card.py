@@ -3,7 +3,9 @@ from starlette.requests import Request
 
 from gu_ml.models.card import Card
 from gu_ml.services.card_db import CardDB
-import random
+
+from gu_ml.services.models import CardStrategyClassification
+from loguru import logger
 
 router = APIRouter()
 
@@ -13,9 +15,13 @@ def add_card(
     request: Request,
     card_data: Card,
 ) -> Card:
-    ## prediction step
-    predict = random.choice(["early", "late"])
-    ## update db
-    card_updated = card_data.model_copy(update={"strategy": predict})
+    model: CardStrategyClassification = request.app.state.model
+    card_updated: Card = model.predict(card_data)
     CardDB().insert_card(card_updated)
     return card_updated
+
+
+@router.get("/card/{card_id}", response_model=Card)
+def get_card(card_id: int):
+    card: Card = CardDB().get_card(card_id)
+    return card

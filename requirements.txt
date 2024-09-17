@@ -1,6 +1,7 @@
 annotated-types==0.7.0
 fastapi==0.114.1
 joblib==1.4.2
+jupyterlab==4.2.5
 lightgbm==4.5.0
 loguru==0.7.2
 numpy==2.1.1

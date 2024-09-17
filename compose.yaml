@@ -7,9 +7,9 @@ services:
       - "8000:80"
     environment:
       DB_HOST: localhost
-      DB_USER: dbuser #envvar
+      DB_USER: gods #envvar
       DB_PWD: dbpwd #envvar
-      DB_NAME: dbuser #envvar
+      DB_NAME: gods #envvar
 
     network_mode: host
   db:
@@ -18,9 +18,9 @@ services:
     ports:
       - ${DB_PORT:-5432}:5432
     environment:
-      POSTGRES_USER: dbuser #envvar
+      POSTGRES_USER: gods #envvar
       POSTGRES_PASSWORD: dbpwd #envvar
-      DB_NAME: cards #envvar
+      DB_NAME: gods #envvar
     volumes:
       - db:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql

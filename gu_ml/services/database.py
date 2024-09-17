@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod  # new
 import psycopg
 import os
 
+from psycopg.rows import dict_row
+
 
 class Database(ABC):
     """
@@ -17,7 +19,7 @@ class Database(ABC):
 
     def __enter__(self):
         self.connection = self.connect_to_database()
-        self.cursor = self.connection.cursor()
+        self.cursor = self.connection.cursor(row_factory=dict_row)
         return self
 
     def __exit__(self, exception_type, exc_val, traceback):
