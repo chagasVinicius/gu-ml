@@ -20,3 +20,4 @@ def test_prediction(test_client) -> None:
     card_updated = CardStrategyClassification("./model/lgb_model.joblib").predict(card)
 
     assert "strategy" in card_updated.model_dump()
+    assert "early" == card_updated.strategy

@@ -62,7 +62,6 @@ class CardDB:
 
     def get_card(self, card_id: int) -> Dict:
         try:
-            logger.info(self._get_card(card_id))
             return self._get_card(card_id)
         except Exception as e:
             logger.info(f"Failed to retrieve a card:\n{e}")
