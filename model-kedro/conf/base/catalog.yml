@@ -1,0 +1,14 @@
+train_df:
+  type: pandas.CSVDataset
+  filepath: data/challenge_train.csv
+  metadata:
+    kedro-viz:
+      layer: warehouse
+      preview: true
+      preview_args:
+        nrows: 5
+
+final_model: # example with load and save args
+  type: pickle.PickleDataset
+  filepath: /home/saraiva/studies/ia/magalu/gu-ml/model/lgb_model.joblib
+  backend: joblib
